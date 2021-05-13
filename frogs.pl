@@ -1,41 +1,48 @@
 jump(StateBefore, StateAfter, AlgBefore, AlgAfter, StepNumber) :-
-	append(PrevElements, [зелёная, коричневая, пусто | NextElements], StateBefore),
-	append(PrevElements, [пусто, коричневая, зелёная | NextElements], StateAfter),
+	append(PrevElements, [green, brown, empty | NextElements], StateBefore),
+	append(PrevElements, [empty, brown, green | NextElements], StateAfter),
 	atomic_list_concat(StateAfter, ', ', StateString),
-	append(AlgBefore, [StepNumber,'. Зелёная лягушка перепрыгнула коричневую:\n', StateString, '\n\n'], AlgAfter).
+	append(AlgBefore, [StepNumber,'. green frog jumed over brown:\n', StateString, '\n\n'], AlgAfter).
 
 jump(StateBefore, StateAfter, AlgBefore, AlgAfter, StepNumber) :-
-    append(PrevElements, [пусто, зелёная, коричневая | NextElements], StateBefore),
-    append(PrevElements, [коричневая, зелёная, пусто | NextElements], StateAfter),
+    append(PrevElements, [empty, green, brown | NextElements], StateBefore),
+    append(PrevElements, [brown, green, empty | NextElements], StateAfter),
 	atomic_list_concat(StateAfter, ', ', StateString),
-    append(AlgBefore, [StepNumber,'. Коричневая лягушка перепрыгнула зелёную:\n', StateString, '\n\n'], AlgAfter).
+    append(AlgBefore, [StepNumber,'. brown frog frog over green:\n', StateString, '\n\n'], AlgAfter).
 
 jump(StateBefore, StateAfter, AlgBefore, AlgAfter, StepNumber) :-
-	append(PrevElements, [зелёная, пусто | NextElements], StateBefore),
-	append(PrevElements, [пусто, зелёная | NextElements], StateAfter),
+	append(PrevElements, [green, empty | NextElements], StateBefore),
+	append(PrevElements, [empty, green | NextElements], StateAfter),
 	atomic_list_concat(StateAfter, ', ', StateString),
-    append(AlgBefore, [StepNumber,'. Зелёная лягушка прыгнула на пустое место:\n', StateString, '\n\n'], AlgAfter).
+    append(AlgBefore, [StepNumber,'. green frog jumped on emptyе place:\n', StateString, '\n\n'], AlgAfter).
 
 jump(StateBefore, StateAfter, AlgBefore, AlgAfter, StepNumber) :-
-	append(PrevElements, [пусто, коричневая | NextElements], StateBefore),
-	append(PrevElements, [коричневая, пусто | NextElements], StateAfter),
+	append(PrevElements, [empty, brown | NextElements], StateBefore),
+	append(PrevElements, [brown, empty | NextElements], StateAfter),
 	atomic_list_concat(StateAfter, ', ', StateString),
-    append(AlgBefore, [StepNumber,'. Коричневая лягушка прыгнула на пустое место:\n', StateString, '\n\n'], AlgAfter).
+    append(AlgBefore, [StepNumber,'. brown frog jumped on emptyе place:\n', StateString, '\n\n'], AlgAfter).
 
 
-start :-
-	StartState = [зелёная, зелёная, зелёная, пусто, коричневая, коричневая, коричневая],
-	EndState = [коричневая, коричневая, коричневая, пусто, зелёная, зелёная, зелёная],
-	write('Начальное состояние: '), nl,
+start(StartState, EndState) :-
+	write('Starting state: '), nl,
 	atomic_list_concat(StartState, ', ', String),
     write(String), nl,
 		(start(StartState, EndState, [], _, 0);
-		write("Решение не найдено."), fail).
+		write("No result."), fail).
+
+start :-
+	StartState = [green, green, green, empty, brown, brown, brown],
+	EndState = [brown, brown, brown, empty, green, green, green],
+	write('Starting state: '), nl,
+	atomic_list_concat(StartState, ', ', String),
+    write(String), nl,
+		(start(StartState, EndState, [], _, 0);
+		write("No result."), fail).
 
 start(State, EndState, Algorithm, _, _) :-
 	State = EndState,
-	append(Algorithm, ["Результат получен."], AlgorithmEnd),
-	write('Решение: '), nl,
+	append(Algorithm, ["Got result."], AlgorithmEnd),
+	write('Result: '), nl,
 	atomic_list_concat(AlgorithmEnd, '', String),
     write(String), nl.
 
