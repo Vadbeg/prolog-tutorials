@@ -27,17 +27,8 @@ start(StartState, EndState) :-
 	write('Starting state: '), nl,
 	atomic_list_concat(StartState, ', ', String),
     write(String), nl,
-		(start(StartState, EndState, [], _, 0);
-		write("No result."), fail).
-
-start :-
-	StartState = [green, green, green, empty, brown, brown, brown],
-	EndState = [brown, brown, brown, empty, green, green, green],
-	write('Starting state: '), nl,
-	atomic_list_concat(StartState, ', ', String),
-    write(String), nl,
-		(start(StartState, EndState, [], _, 0);
-		write("No result."), fail).
+	(start(StartState, EndState, [], _, 0);
+	write("No result."), fail).
 
 start(State, EndState, Algorithm, _, _) :-
 	State = EndState,
